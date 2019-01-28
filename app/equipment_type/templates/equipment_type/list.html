@@ -1,0 +1,58 @@
+{% extends "storage.html" %}
+{% set active_page = "equipment_type" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block storage_content %}
+<div class="bar">
+    <h1>{{_('Type Equipment')}}</h1>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li>
+                <a class="btn btn-default" href="{{ url_for('equipment_type.add') }}">{{_('Nouveau Type Equipment')}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div>
+    {% if list %}
+    <div class="actions-bar">
+        <form class="form-inline" method="post" action="">
+            {{ search_form.hidden_tag() }}
+            <div class="form-group">
+                {{ search_form.name(size=20, class='form-control', placeholder=search_form.name.label.text) }}
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Type d'équipement</th>
+            <th>Description</th>
+            <th class="text-right"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in list %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td class="text-right">
+                <a href="{{ url_for('equipment_type.edit', id=item.id) }}">{{_('Modifier')}}</a>
+                <a href="{{ url_for('equipment_type.detail', id=item.id) }}">{{_('Detail')}}</a>
+                <a href="{{ url_for('equipment_type.delete', id=item.id) }}">{{_('Supprimer')}}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="panel panel-default emptyspace">
+        <div class="panel-body text-center">
+            <h3>Aucun type equipement enregistré</h3>
+            <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
+            <a class="btn btn-default" href="{{ url_for('equipment_type.add') }}">{{_('Nouvelle equipment_type')}}</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

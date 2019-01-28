@@ -1,0 +1,70 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "storage.html" %}
+{% set active_page = "room" %}
+{% block title %}Salle{% endblock %}
+{% block storage_content %}
+<div class="content-section">
+    <div class="inner">
+        {% if list %}
+        <div class="bar">
+            <h1 style="text-align:center;">Salle</h1>
+            <a href="{{ url_for('room.add') }}" class="btn btn-default">
+                <i class="fa fa-plus"></i>
+                Ajouter une salle
+            </a>
+        </div>
+        <div class="bar">
+            <form action="" method="post">
+                {{ search_form.hidden_tag() }}
+                {{ search_form.name(size=20, class='form-control subnav-search-input subnav-search-input-wide
+                input-contrast', placeholder=search_form.name.label.text) }}
+            </form>
+        </div>
+        <div class="center">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th width="15%"> Nom</th>
+                    <th width="40%"> Description</th>
+                    <th width="40%"> Equipements</th>
+                    <th width="15%"> Modifier</th>
+                    <th width="15%"> Spprimer</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in list %}
+                <tr>
+                    <td> {{ item.name }}</td>
+                    <td> {{ item.description }}</td>
+                    <td> {{item.equipments.all()|length}}</td>
+                    <td>
+                        <a href="{{ url_for('room.edit', id=item.id) }}">
+                            <i class="fa fa-pencil"></i> Modifier
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('room.delete', id=item.id) }}">
+                            <i class="fa fa-trash"></i> Supprimer
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div style="text-align: center">
+            <div style="text-align: center">
+                <h1 style="text-align:center;">Salle</h1>
+                <h3>Aucune donnée n'a été ajoutée. </h3>
+                <hr class="intro-divider">
+                <a href="{{ url_for('room.add') }}" class="btn btn-default btn-lg">
+                    <i class="fa fa-plus"></i>
+                    Ajouter une salle
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

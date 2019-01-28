@@ -1,0 +1,16 @@
+{% extends "process.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% set active_page = "print" %}
+{% block process_content %}
+    <div class="bar">
+        <div>
+            <h1>{{ _('Imprimer des étiquettes') }}</h1>
+            <p>Veuillez renseigner les informations ci-dessous</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+{% endblock %}

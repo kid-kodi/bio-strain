@@ -1,0 +1,6 @@
+<!doctype html>
+<title>Hello</title>
+<link rel=stylesheet href="{{ url_for('static', filename='css/print.css') }}" />
+
+<p>Hello, {{ name }}!</p>
+<nav><a href="{{ url_for('trainee.pdf', name=name) }}">Get as PDF</a></nav>

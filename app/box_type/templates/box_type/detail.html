@@ -1,0 +1,13 @@
+{% extends "storage.html" %}
+{% set active_page = "box_type" %}
+{% block storage_content %}
+<div class="bar">
+    <div>
+        <h1>{{box_type.name}}</h1>
+        <h3>Nombre de puit {{box_type.max_number}}</h3>
+    </div>
+    <div class="actions">
+        <a class="btn btn-default" href="{{ url_for('box_type.edit', id=box_type.id) }}">Modifier</a>
+    </div>
+</div>
+{% endblock %}

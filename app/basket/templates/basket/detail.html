@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% set active_page = "basket" %}
+{% block body %}
+<div class="bar">
+    <h1>{{ basket.name }}</h1>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li>
+                <a class="btn btn-default" href="{{ url_for('basket.remove_all') }}">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="">
+    {% if basket.strains.all() | length  > 0%}
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{{_('Code biobanque')}}</th>
+            <th>{{_('Numéro à l\'arrivé')}}</th>
+            <th>{{_('Nom de la souche')}}</th>
+            <th>{{_('Produit biologique')}}</th>
+            <th>{{_('Date')}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for strain in basket.strains %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="items" value="{{strain.id}}">
+                </td>
+                <td>{{strain.biobank_number}}</td>
+                <td>{{strain.serial_number}}</td>
+                <td>{{strain.strain_type.name}}</td>
+                <td>{{strain.sample_type.name}}</td>
+                <td>{{strain.recceive_date}}</td>
+                <td>
+                    <ul class="nav nav-pills">
+
+                        <li>
+                            <a class="btn btn-default" href="{{ url_for('basket.removefromlist', id=strain.id) }}">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li><a class="btn btn-default" href="{{ url_for('strain.detail', id=strain.id) }}">Voir</a></li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <div style="text-align: center">
+            <div style="text-align: center">
+                <h1 style="text-align:center;">Panier</h1>
+                <h3>Aucune souche dans le panier veuillez en selectionner. </h3>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

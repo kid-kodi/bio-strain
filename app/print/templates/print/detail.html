@@ -1,0 +1,31 @@
+{% extends "process.html" %}
+{% set active_page = "print" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block process_content %}
+<div class="bar">
+    <div>
+        <h1>{{print.serial}}</h1>
+        <h3>{{print.label.name}}</h3>
+    </div>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <a class="btn btn-success" href="{{url_for('print.proceed', id=print.id)}}">Imprimer</a>
+        </ul>
+    </div>
+</div>
+<div class="">
+    <div class="bar">
+        <h1>Liste des étiquettes à imprimer</h1>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Echantillon</td>
+            </tr>
+        </thead>
+        {% for print_item in print.print_items %}
+            {% include 'print/_print_item.html' %}
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

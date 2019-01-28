@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% set active_page = "basket" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block body %}
+<div class="container">
+  <div class="form-container">
+    <div class="Subhead">
+      <h1>{{ _('Creer un nouveau panier') }}</h1>
+      <p class="Subhead-description">
+        Ajouter un panier à votre liste
+      </p>
+    </div>
+    <form method="POST">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name(class_="form-control") }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          {{ form.hidden_tag() }}
+          {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

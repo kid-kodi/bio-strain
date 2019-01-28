@@ -1,0 +1,15 @@
+{% extends "storage.html" %}
+{% set active_page = "equipment_type" %}
+{% block storage_content %}
+<div class="bar">
+  <h1>{{ equipment_type.name }}</h1>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li>
+                <a href="{{ url_for('equipment_type.edit', id=equipment_type.id) }}">{{ _('Modifier') }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

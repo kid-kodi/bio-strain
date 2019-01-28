@@ -1,0 +1,118 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+    {% if add %}
+        Nouvelle Souche
+    {% else %}
+        Modifier la Souche
+    {% endif %}
+{% endblock %}
+{% block body %}
+{% if add %}
+    <h1>Nouvelle Souche</h1>
+{% else %}
+    <h1>Modifier la Souche</h1>
+{% endif %}
+<div class="row">
+        
+    <br/>
+    <div class="col-md-4">
+        <form action="" enctype="multipart/form-data" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            {{ form.biobank_number() }}
+            <div>
+                <h3>Information client</h3>
+                <p>
+                    {{ form.customer_id.label }}
+                    {{ form.customer_id(class_="form-control") }}
+                    {% for error in form.customer_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.frame_id.label }}
+                    {{ form.frame_id(class_="form-control") }}
+                    {% for error in form.frame_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.receive_date.label }}
+                    {{ form.receive_date(class_="form-control datepicker") }}
+                    {% for error in form.receive_date.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div>
+                <h3>Information sur la souche</h3>
+                <p>
+                    {{ form.origin_id.label }}
+                    {{ form.origin_id(class_="form-control") }}
+                    {% for error in form.origin_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.strain_type_id.label }}
+                    {{ form.strain_type_id(class_="form-control") }}
+                    {% for error in form.strain_type_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.sample_type_id.label }}
+                    {{ form.sample_type_id(class_="form-control") }}
+                    {% for error in form.sample_type_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.phenotype_id.label }}
+                    {{ form.phenotype_id(class_="form-control") }}
+                    {% for error in form.phenotype_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.serial_number.label }}
+                    {{ form.serial_number(class_="form-control") }}
+                    {% for error in form.serial_number.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.mutation_type.label }}
+                    {{ form.mutation_type(class_="form-control") }}
+                    {% for error in form.mutation_type.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div>
+                <h3>Identification</h3>
+                <p>
+                    {{ form.identity.label }}
+                    {{ form.identity(class_="form-control") }}
+                    {% for error in form.identity.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div>
+                <h3>Localisation</h3>
+                <p>
+                    {{ form.conservation_date.label }}
+                    {{ form.conservation_date(class_="form-control datepicker") }}
+                    {% for error in form.conservation_date.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <p>
+                {{ form.submit(class_="btn btn-success") }}
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}

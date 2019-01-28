@@ -1,0 +1,32 @@
+{% extends "storage.html" %}
+{% set active_page = "room" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block storage_content %}
+<div class="container">
+  <div class="form-container">
+    <div class="Subhead">
+      <h1>{{ _('Creer une nouvelle salle') }}</h1>
+      <p class="Subhead-description">
+        Ajouter une nouvelle salle à votre liste
+      </p>
+    </div>
+    <form method="POST">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name(class_="form-control") }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          {{ form.hidden_tag() }}
+          {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

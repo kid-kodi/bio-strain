@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% set active_page = "strain" %}
+{% block body %}
+<div class="bar">
+    <div>
+        <h1>{{_('Client : ')}}{{strain.customer.display_as}}</h1>
+        <h3>{{_('Code : ')}}{{strain.biobank_number}}</h3>
+    </div>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li>
+                <a class="btn btn-default" href="{{ url_for('strain.edit', id=strain.id) }}">Modifier</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="block">
+    <h1>Information générale</h1>
+    <table class="table">
+        <tr>
+            <td><b>{{_('Origine')}}</b></td>
+            <td>{{strain.origin.name}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Nom de la souche')}}</b></td>
+            <td>{{strain.strain_type.name}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Produit biologique')}}</b></td>
+            <td>{{strain.sample_type.name}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Code Bio banque')}}</b></td>
+            <td>{{strain.biobank_number}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Code origine')}}</b></td>
+            <td>{{strain.serial_number}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Emplacement')}}</b></td>
+            {% if strain.location %}
+            <td>{{strain.location}}</td>
+            {% else %}
+            <td>{{_('En attente de stockage')}}</td>
+            {% endif %}
+        </tr>
+    </table>
+</div>
+<div class="block">
+    <div class="bar">
+        <h1>Rélation Enfants</h1>
+    </div>
+    {% if strain.children %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{{_('Numéro à l\'arrivé')}}</th>
+            <th>{{_('Code biobanque')}}</th>
+            <th>{{_('Nature d\'échantillon')}}</th>
+            <th>{{_('Conditionnement')}}</th>
+            <th>{{_('Volume')}}/{{_('Unité')}}</th>
+            <th>{{_('Date de prélèvement')}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for strain in strain.children %}
+        {% include 'strain/_item.html' %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <div style="text-align: center">
+            <div style="text-align: center">*
+                <h3>Aucune relation enfant</h3>
+            </div>
+        </div>
+    {% endif %}
+</div>
+<div class="block">
+    <div class="bar">
+        <h1>Historique de stockage</h1>
+    </div>
+    {% if strain.locations %}
+    {% else %}
+        <div style="text-align: center">
+            <div style="text-align: center">*
+                <h3>Aucun emplacement</h3>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

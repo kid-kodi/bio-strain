@@ -1,0 +1,21 @@
+{% extends "storage.html" %}
+{% set active_page = "equipement" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block storage_content %}
+<div class="container">
+  <div class="form-container">
+    <div class="Subhead">
+      <h2 class="Subhead-heading">Creer un nouvel equipement</h2>
+      <p class="Subhead-description">
+        Ajouter un nouvel equipement à votre liste
+      </p>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

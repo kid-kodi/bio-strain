@@ -1,0 +1,149 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+    {% if add %}
+        Add Trainee
+    {% else %}
+        Edit Trainee {{add}}
+    {% endif %}
+{% endblock %}
+{% block body %}
+{% if add %}
+    <h1>Add Trainee</h1>
+{% else %}
+    <h1>Edit Trainee</h1>
+{% endif %}
+<div class="row">
+        
+    <br/>
+    <div>
+        {% if add %}
+            <img src="{{url_for('static', filename='img/default.png')}}" style="width: 100px; height: 80px;"/>
+        {% else %}
+            <img src="{{trainee.image_url}}" style="width: 100px; height: 80px;"/>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <form action="" enctype="multipart/form-data" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            {{ form.registration_number(class_="form-control") }}
+            {% for error in form.registration_number.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            {{ form.image(class_="form-control") }}
+            {% for error in form.image.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            <p>
+                {{ form.first_name.label }}
+                {{ form.first_name(class_="form-control") }}
+                {% for error in form.first_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.last_name.label }}
+                {{ form.last_name(class_="form-control") }}
+                {% for error in form.last_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.email.label }}
+                {{ form.email(class_="form-control") }}
+                {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.phone.label }}
+                {{ form.phone(class_="form-control") }}
+                {% for error in form.phone.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.birthdate.label }} 
+                {{ form.birthdate(class_="form-control datepicker") }}
+                {% for error in form.birthdate.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.school.label }}   
+                {{ form.school(class_="form-control") }}
+                {% for error in form.school.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.diplome.label }}    
+                {{ form.diplome(class_="form-control") }}
+                {% for error in form.diplome.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.spinneret_id.label }}    
+                {{ form.spinneret_id(class_="form-control") }}
+                {% for error in form.spinneret_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.level_id.label }}
+                {{ form.level_id(class_="form-control") }}
+                {% for error in form.level_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.unit_id.label }} 
+                {{ form.unit_id(class_="form-control") }}
+                {% for error in form.unit_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.responsable.label }}
+                {{ form.responsable(class_="form-control") }}
+                {% for error in form.responsable.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.started_date.label }}
+                {{ form.started_date(class_="form-control datepicker") }}
+                {% for error in form.started_date.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.ended_date.label }}
+                {{ form.ended_date(class_="form-control datepicker") }}
+                {% for error in form.ended_date.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.apply_date.label }}
+                {{ form.apply_date(class_="form-control datepicker") }}
+                {% for error in form.apply_date.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.theme.label }}
+                {{ form.theme(class_="form-control") }}
+                {% for error in form.theme.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.submit(class_="btn btn-success") }}
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}

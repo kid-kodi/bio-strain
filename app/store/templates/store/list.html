@@ -1,0 +1,38 @@
+{% extends "process.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% set active_page = "store" %}
+{% block process_content %}
+    <div class="bar">
+        <div>
+            <h1>{{ _('Rangement') }}</h1>
+        </div>
+        <div class="actions">
+            <a class="btn btn-default" href="{{ url_for('store.add') }}">{{ _('Nouveau rangement') }}</a>
+        </div>
+    </div>
+    {% if stores %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{_('Numéro')}}</th>
+              <th>{{_('Emplacement')}}</th>
+              <th>{{_('Echantillon')}}</th>
+              <th>{{_('Enregistrement')}}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for store in stores %}
+              {% include 'store/_item.html' %}
+            {% endfor %}
+          </tbody>
+        </table>
+    {% else %}
+        <div class="panel panel-default emptyspace">
+            <div class="panel-body text-center">
+                <h3>Aucunes données enregistrées</h3>
+                <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

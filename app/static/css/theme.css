@@ -1,0 +1,82 @@
+/* Define the "system" font family */
+@font-face {
+  font-family: system;
+  font-style: normal;
+  font-weight: 300;
+  src: local(".-apple-system"), local(".BlinkMacSystemFont"), local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
+}
+
+/* Now, let's apply it on an element */
+body {
+  font-family: "system" !important;
+}
+
+#header{}
+#header .navbar{
+    border-radius : none;
+}
+
+.logo{
+    width:30px;
+height:25px;
+}
+
+.custom-combobox {
+    position: relative;
+    display: inline-block;
+}
+
+.ui-widget label{
+    display: block !important;
+}
+
+.custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+}
+
+.custom-combobox-input {
+    margin: 0;
+    padding: 5px 10px;
+}
+
+
+.bar{
+    padding-bottom: 9px;
+    margin: 20px 0 20px;
+    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.actions-bar{
+  display: flex;
+  align-items: center;
+  height: 50px;
+  justify-content: space-between;
+  margin: 20px 0 20px;
+}
+
+.page-wrap{
+    padding : 20px 0;
+    border-bottom: 1px solid #eee;
+}
+.page-footer {
+    padding: 20px 0;
+}
+
+#item-fieldset{
+    margin-top : 50px;
+}
+
+
+#split-nav li a.active{
+    background  : #eee;
+    border-left : 5px solid;
+}
+

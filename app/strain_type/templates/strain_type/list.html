@@ -1,0 +1,65 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Dictionnaire de souche{% endblock %}
+{% block body %}
+<div class="content-section">
+    <div class="outer">
+        <div class="middle">
+            <div class="inner">
+                {% if list %}
+                <div class="bar">
+                    <h1 style="text-align:center;">Dictionnaire de souche</h1>
+                    <a href="{{ url_for('strain_type.add') }}" class="btn btn-default btn-lg">
+                        <i class="fa fa-plus"></i>
+                        Ajouter un nom de souche
+                    </a>
+                </div>
+                <hr class="intro-divider">
+                <div class="center">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="15%"> Nom</th>
+                            <th width="40%"> Description</th>
+                            <th width="15%"> Modifier</th>
+                            <th width="15%"> Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in list %}
+                        <tr>
+                            <td> {{ item.name }}</td>
+                            <td> {{ item.description }}</td>
+                            <td>
+                                <a href="{{ url_for('strain_type.edit', id=item.id) }}">
+                                    <i class="fa fa-pencil"></i> Modifier
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('strain_type.delete', id=item.id) }}">
+                                    <i class="fa fa-trash"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div style="text-align: center">
+                    <div style="text-align: center">
+                        <h1 style="text-align:center;">Nom de souche</h1>
+                        <h3>Aucune donnée n'a été ajoutée. </h3>
+                        <hr class="intro-divider">
+                        <a href="{{ url_for('strain_type.add') }}" class="btn btn-default btn-lg">
+                            <i class="fa fa-plus"></i>
+                            Ajouter un nom de souche
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+<!-- app/templates/admin/trainees/trainees.html -->
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% from "_formhelpers.html" import render_field %}
+{% extends "base.html" %}
+{% block title %}Trainees{% endblock %}
+{% block body %}
+{% if list %}
+<div>
+  <div class="page-header">
+    <h1>Trainees</h1>
+    <div class="">
+      <a href="{{ url_for('trainee.add') }}" class="btn btn-success">
+        Ajouter stagiaire
+      </a>
+    </div>
+  </div>
+
+  <div class="actions-bar">
+    <div class="btn-group" role="group" aria-label="...">
+        <a class="btn btn-default printDiv" href="#">Print</a>
+        <a class="btn btn-default printBtn" href="#">PDF</a>
+    </div>
+    <div class="btn-group" role="group" aria-label="...">
+        <a type="button" class="btn btn-default" href="{{ url_for('trainee.import_in') }}">Import data</a>
+        <a type="button" class="btn btn-default" href="{{ url_for('trainee.export_out') }}">Export data</a>
+    </div>
+  </div>
+  <div class="">
+      <table class="table">
+        <thead>
+          <tr>
+            <th width=""></th>
+            <th width="15%"> Image </th>
+            <th width="15%"> Nom </th>
+            <th width="15%"> Prénom </th>
+            <th width="15%"> Unité </th>
+            <th width="15%"> Niveau </th>
+            <th width="15%"> Actions </th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in list %}
+          <tr>
+            <td> <input type="checkbox" name="items" value="{{ item.id }}"> </td>
+            <td>
+              {% if item.image_url %}
+                <img src="{{item.image_url}}" style="width: 40px; height: 40px">
+              {% endif %}
+            </td>
+            <td> {{ item.first_name }} </td>
+            <td> {{ item.last_name }} </td>
+            <td> {{ item.unit.name }} </td>
+            <td> {{ item.level.name }} </td>
+            <td>
+              <div role="presentation" class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-cog"></i>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="{{ url_for('trainee.edit', id=item.id) }}">
+                      <i class="fa fa-pencil"></i> Modifier
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{ url_for('trainee.delete', id=item.id) }}">
+                      <i class="fa fa-trash"></i> Suprimer
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <div class="pagination">
+          {{ macros.pagination_widget(pagination, '.list') }}
+      </div>
+    </div>
+  </div>
+</div>
+<div id="printableArea">
+  {% for item in list %}
+    <div class="my-badge panel panel-default">
+      <div class="header row">
+        <div class="col-md-6">
+          <img src="" style="width: 40px; height: 30px">
+          <p style="height: 10px">STAGIAIRE</p>
+        </div>
+        <div class="col-md-6">
+          <img src="{{item.image_url}}" style="width: 40px; height: 40px">
+        </div>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <li>{{ item.resgistration_num }}</li>
+          <li>{{ item.first_name + ' ' + item.last_name }}</li>
+          <li>{{ item.unit.name }}</li>
+          <li>{{ item.level.name }}</li>
+          <li>{{ item.school }}</li>
+          <li>{{ item.responsable }}</li>
+          <li>{{ item.ended_date }}</li>
+        </ul>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% else %}
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <h1 style="text-align:center;">Trainees</h1>
+        <div style="text-align: center">
+          <h3> No data have been added. </h3>
+          <a href="{{ url_for('trainee.add') }}" class="btn btn-success">
+            Ajouter stagiaire
+          </a>
+          <a type="button" class="btn btn-default" href="{{ url_for('trainee.import_in') }}">Import data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,83 @@
+@page {
+  size: A4; margin: 1cm
+}
+
+@media print {
+  #printableArea{
+      display: flex;
+      align-items: column;
+      align-items: center;
+  }
+
+  .trainee-card{
+    width: 33%;
+    float: left;
+    padding: 10px 5px;
+    border: 1px solid #ddd;
+  }
+
+  .trainee-card-head{
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .trainee-card-head-logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    height: 50px;
+  }
+  .trainee-card-head-avtr{
+    width: 50%;
+  }
+  .trainee-card-head-avtr img{
+    float: right;
+    margin-right: 10px;
+  }
+
+  .trainee-card-body h3{
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: 30px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .trainee-card-body ul li{
+    list-style: none;
+  }
+
+  .trainee-card-body .reg_number{
+    text-align: center;
+    color : blue !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .trainee-card-body .full_name{
+    text-align: center;
+    color : blue !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .trainee-card-body ul{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .trainee-card-footer{
+    text-align: center;
+    color: red;
+  }
+
+  .trainee-card-footer em {
+    color: red !important;
+    -webkit-print-color-adjust: exact;
+  }
+}

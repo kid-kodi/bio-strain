@@ -1,0 +1,37 @@
+{% extends "process.html" %}
+{% set active_page = "store" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block process_content %}
+<div class="bar">
+    <div>
+        <h1>{{store.serial}}</h1>
+        <h3>{{store.box.name}}</h3>
+    </div>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li>
+                {% if store.status == 0 %}
+                <a class="btn btn-success" href="{{url_for('store.proceed', id=store.id)}}">Valider</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="">
+    <div class="bar">
+        <h1>Liste des rangements à effectués</h1>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Echantillon</td>
+                <td>Puit</td>
+                <td></td>
+            </tr>
+        </thead>
+        {% for store_item in store.store_items %}
+            {% include 'store/_store_item.html' %}
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

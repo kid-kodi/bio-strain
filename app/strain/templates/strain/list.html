@@ -1,0 +1,124 @@
+<!-- app/templates/admin/strains/strains.html -->
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% from "_formhelpers.html" import render_field %}
+{% extends "base.html" %}
+{% block title %}Strains{% endblock %}
+{% block body %}
+{% if list %}
+<div>
+    <div class="bar">
+        <h1>Souches</h1>
+        <div class="actions-bar">
+            <a href="{{ url_for('strain.add') }}" class="btn btn-success">
+                Nouvelle souche
+            </a>
+        </div>
+    </div>
+
+    <form class="form-inline" method="post" action="">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.serial_number(class='form-control', placeholder=form.serial_number.label.text) }}
+        </div>
+        <div class="form-group">
+            {{ form.biobank_number(size=20, class='form-control', placeholder=form.biobank_number.label.text) }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_id(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.origin_id(class='form-control') }}
+        </div>
+        <div class="form-group">{{ form.submit(class='form-control') }}</div>
+    </form>
+
+    <div class="actions-bar">
+        <div class="btn-group" role="group" aria-label="...">
+            <a class="btn btn-default printBtn" href="#">Imprimer</a>
+        </div>
+        <div class="btn-group" role="group" aria-label="...">
+            <a type="button" class="btn btn-default" href="{{ url_for('strain.import_in') }}">Import data</a>
+            <a type="button" class="btn btn-default" href="{{ url_for('strain.export_out') }}">Export data</a>
+        </div>
+    </div>
+    <div class="">
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="">
+                    <input type="checkbox" class="chkAllBtn">
+                </th>
+                <th> Numero</th>
+                <th> Numero bio.</th>
+                <th> Produit bio.</th>
+                <th> Nom de la souche</th>
+                <th> Service</th>
+                <th> Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in list %}
+            <tr>
+                <td><input type="checkbox" name="items" value="{{ item.id }}"></td>
+                <td> {{ item.serial_number }}</td>
+                <td> {{ item.biobank_number }}</td>
+                <td> {{ item.sample_type.name }}</td>
+                <td> {{ item.strain_type.name }}</td>
+                <td> {{ item.customer.display_as}}</td>
+                <td>
+                    <ul class="nav nav-pills">
+                        {% if item.basket_id == None %}
+                        <li>
+                            <a class="btn btn-default" href="{{ url_for('strain.addtolist', id=item.id) }}">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
+                        {% else %}
+                        <li><a class="btn btn-default" href="{{ url_for('strain.removefromlist', id=item.id) }}"><span
+                                class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></li>
+                        {% endif %}
+                        <li><a class="btn btn-default" href="{{ url_for('strain.detail', id=item.id) }}">Voir</a></li>
+                        <li>
+                            <a class="btn btn-default" href="{{ url_for('strain.edit', id=item.id) }}">
+                                <i class="fa fa-pencil"></i> Modifier
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-default" href="{{ url_for('strain.delete', id=item.id) }}">
+                                <i class="fa fa-trash"></i> Supprimer
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.list') }}
+        </div>
+    </div>
+</div>
+</div>
+<div id="printableArea" class="container">
+    <div class="row"></div>
+</div>
+{% else %}
+<div class="outer">
+    <div class="middle">
+        <div class="inner">
+            <h1 style="text-align:center;">Souches</h1>
+            <h3 style="text-align: center">Aucune donnée n'a été ajoutée. </h3>
+            <hr class="intro-divider">
+            <div style="text-align: center">
+                <a href="{{ url_for('strain.add') }}" class="btn btn-success btn-lg">
+                    Ajouter une souche
+                </a>
+                <a type="button" class="btn btn-default btn-lg" href="{{ url_for('strain.import_in') }}">Importer data</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

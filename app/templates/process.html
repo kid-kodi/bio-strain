@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% set navigation_bar = [
+    ('/aliquot', 'aliquot', 'Aliquotage'),
+    ('/print', 'print', 'Impression des code à barres'),
+    ('/store', 'store', 'Ranger plusieurs supports')
+] -%}
+{% set active_page = active_page|default('index') -%}
+
+{% block body %}
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav nav-pills nav-stacked">
+                {% for href, id, caption in navigation_bar %}
+                <li{% if id == active_page %} class="active"{% endif
+                %}><a href="{{ href|e }}">{{_(caption|e) }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </nav>
+        <div class="col-md-10">
+            {% block process_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

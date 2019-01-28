@@ -1,0 +1,17 @@
+{% extends "storage.html" %}
+{% set active_page = "rack" %}
+{% block storage_content %}
+<div class="container">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <h1>{{ _('Rack') }}: {{ rack.name }}</h1>
+        {% if rack.created_at %}
+        <p>{{ _('Last seen on') }}: {{ moment(rack.created_at).format('LLL') }}</p>
+        {% endif %}
+        <p><a href="{{ url_for('rack.edit', id=rack.id) }}">{{ _('Edit rack') }}</a></p>
+      </td>
+    </tr>
+  </table>
+</div>
+{% endblock %}

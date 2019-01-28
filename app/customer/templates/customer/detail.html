@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% set active_page = "customer" %}
+{% block body %}
+<div class="bar">
+    <h1>{{_('Client : ')}}{{customer.display_as}}</h1>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li><a class="btn btn-default" href="{{ url_for('customer.edit', id=customer.id) }}">Modifier</a></li>
+        </ul>
+    </div>
+</div>
+<div class="block">
+    <h3>Information générale</h3>
+    <table class="table">
+        <tr>
+            <td><b>{{_('Catégorie')}}</b></td>
+            <td>{{customer.category.name}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Raison sociale')}}</b></td>
+            <td>{{customer.display_as}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Nom')}}</b></td>
+            <td>{{customer.first_name}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Prénoms')}}</b></td>
+            <td>{{customer.last_name}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Téléphone')}}</b></td>
+            <td>{{customer.telephone}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Email adresse')}}</b></td>
+            <td>{{customer.email}}</td>
+        </tr>
+        <tr>
+            <td><b>{{_('Adresse')}}</b></td>
+            <td>{{customer.address}}</td>
+        </tr>
+    </table>
+</div>
+<div class="block">
+    <div class="bar">
+        <h1>Projets</h1>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{{_('Titre')}}</th>
+            <th>{{_('Description')}}</th>
+            <th>{{_('Client')}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in customer.projects %}
+        {% include 'project/_item.html' %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

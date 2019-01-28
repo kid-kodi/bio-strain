@@ -1,0 +1,17 @@
+<tr>
+    <td>{{store.serial}}</td>
+    <td>{{store.box.name}}</td>
+    <td>
+        <ul>
+            {% for store_item in store.store_items %}
+            <li>
+                {{store_item.sample.code}} stocké dans le puit {{store_item.hole.name}}
+            </li>
+            {% endfor %}
+        </ul>
+    </td>
+    <td>{{store.author.username}} {{store.created_at}}</td>
+    <td>
+        <a href="{{ url_for('store.detail', id=store.id) }}">Détails</a>
+    </td>
+</tr>

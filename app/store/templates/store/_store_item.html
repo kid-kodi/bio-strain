@@ -1,0 +1,23 @@
+<form novalidate method="post" action="{{ url_for('store.set_hole', id=store_item.id) }}">
+    <input name="store_item_id" type="hidden" value="{{store_item.id}}">
+    <input name="sample_id" type="hidden" value="{{store_item.sample_id}}">
+    <tr>
+        <td>{{store_item.sample.code}}</td>
+        <td>
+            {% if store_item.status == 0 %}
+            <select name="hole_id">
+                {% for hole in holes %}
+                    <option value="{{hole.id}}" {% if hole.id==store_item.hole.id %} selected="selected" {% endif %}>{{ hole.name }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+                {{ store_item.hole.name }}
+            {% endif %}
+        </td>
+        <td class="text-right">
+            {% if store_item.status == 0 %}
+            <input type="submit" value="Changer">
+            {% endif %}
+        </td>
+    </tr>
+</form>

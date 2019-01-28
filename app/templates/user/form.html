@@ -1,0 +1,35 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+    {% if add %}
+        Add User
+    {% else %}
+        Edit User {{add}}
+    {% endif %}
+{% endblock %}
+{% block body %}
+<div class="content-section">
+ <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <div class="center">
+            {% if add %}
+                <h1>Add User</h1>
+            {% else %}
+                <h1>Edit User</h1>
+            {% endif %}
+            <br/>
+            <!-- <div>
+                {% if add %}
+                    <img src="" style="width: 100px; height: 80px;"/>
+                {% else %}
+                    <img src="{{user.image_url}}" style="width: 100px; height: 80px;"/>
+                {% endif %}
+            </div> -->
+            {{ wtf.quick_form(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

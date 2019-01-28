@@ -1,0 +1,17 @@
+<tr>
+    <td>{{print.serial}}</td>
+    <td>{{print.label.name}}</td>
+    <td>
+        <ul>
+            {% for print_item in print.print_items %}
+            <li>
+                {{print_item.sample.code}}
+            </li>
+            {% endfor %}
+        </ul>
+    </td>
+    <td>{{print.author.username}} {{print.created_at}}</td>
+    <td>
+        <a href="{{ url_for('print.detail', id=print.id) }}">Détails</a>
+    </td>
+</tr>
