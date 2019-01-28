@@ -1,0 +1,38 @@
+{% extends "collect.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% set active_page = "expedition" %}
+{% block collect_content %}
+{% if expeditions | length > 0 %}
+<div class="bar">
+    <h1>{{ _('Expedition') }}</h1>
+    <div class="actions">
+        <a class="btn btn-default" href="{{ url_for('expedition.add', project_id=0) }}">{{ _('Nouvelle expedition') }}</a>
+        <a class="btn btn-default" href="{{ url_for('expedition.download_file', filename='template.xls') }}">{{ _('Télécharger le template') }}</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>{{_('Numéro')}}</th>
+        <th>{{_('Client')}}</th>
+        <th>{{_('Enregistrement')}}</th>
+        <th>{{_('Nombre d\'échantillons')}}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for expedition in expeditions %}
+    {% include 'expedition/_item.html' %}
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="panel panel-default emptyspace">
+    <div class="panel-body text-center">
+        <h3>Aucune(s) expedition(s) enregistrée(s)</h3>
+        <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
+        <a class="btn btn-default" href="{{ url_for('expedition.add') }}">{{_('Nouvelle expedition')}}</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

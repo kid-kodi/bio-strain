@@ -118,14 +118,28 @@ class Order(db.Model):
     status = db.Column(db.Integer)
     strains = db.relationship('Strain', backref='order', lazy='dynamic')
 
-    def total_sample(self):
-        number = 0
-        strains = self.strains
-        for p in strains:
-            number = number + p.total_sample()
+    def total_strain(self):
+        number = len(self.strains.all())
         return number
 
-    def total_patient(self):
+
+class Expedition(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    serial = db.Column(db.String(255))
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    frame_id = db.Column(db.Integer, db.ForeignKey('frame.id'))
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    telephone = db.Column(db.String(255))
+    temperature_id = db.Column(db.Integer, db.ForeignKey('temperature.id'))
+    expedition_date = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    status = db.Column(db.Integer)
+    strains = db.relationship('Strain', backref='expedition', lazy='dynamic')
+
+    def total_strain(self):
         number = len(self.strains.all())
         return number
 
@@ -226,6 +240,7 @@ class Strain(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    expedition_id = db.Column(db.Integer, db.ForeignKey('expedition.id'))
     origin_id = db.Column(db.Integer, db.ForeignKey('origin.id'))
     frame_id = db.Column(db.Integer, db.ForeignKey('frame.id'))
     strain_type_id = db.Column(db.Integer, db.ForeignKey('strain_type.id'))

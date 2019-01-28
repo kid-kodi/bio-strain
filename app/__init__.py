@@ -104,6 +104,9 @@ def create_app(config_name=Config):
     from app.order import bp as order_bp
     app.register_blueprint(order_bp)
 
+    from app.expedition import bp as expedition_bp
+    app.register_blueprint(expedition_bp)
+
     return app
 
 

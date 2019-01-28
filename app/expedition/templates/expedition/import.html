@@ -1,0 +1,24 @@
+{% extends "collect.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% set active_page = "expedition" %}
+{% block collect_content %}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2 class="text-center">Importer des données à partir d'un fichier excel</h2>
+        <p class="text-center">(xls, xlsx, ods please)</p>
+        <form action="" method=post enctype=multipart/form-data>
+            <div class="custom-file my-2">
+              <input type=file name=file class="custom-file-input" id="customFile">
+              <label class="custom-file-label" for="customFile">Selectionner votre fichier</label>
+            </div>
+            <div class="my-2">
+                <input class="btn btn-success btn-block" type=submit value=Upload>
+            </div>
+        </form>
+        <p class="text-center">
+            <a class="btn" href="{{ url_for('patient.add', order_id=order.id) }}">Enregistrer un par un</a>
+        </p>
+    </div>
+  </div>
+{% endblock %}
+
