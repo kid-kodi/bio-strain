@@ -98,6 +98,38 @@ class Category(db.Model):
         return '<Category: {}>'.format(self.name)
 
 
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    serial = db.Column(db.String(255))
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    frame_id = db.Column(db.Integer, db.ForeignKey('frame.id'))
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    telephone = db.Column(db.String(255))
+    send_date = db.Column(db.String(255))
+    temperature_id = db.Column(db.Integer, db.ForeignKey('temperature.id'))
+    receive_date = db.Column(db.String(255))
+    nbr_pack = db.Column(db.String(255))
+    file_name = db.Column(db.String(255))
+    file_url = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    status = db.Column(db.Integer)
+    strains = db.relationship('Strain', backref='order', lazy='dynamic')
+
+    def total_sample(self):
+        number = 0
+        strains = self.strains
+        for p in strains:
+            number = number + p.total_sample()
+        return number
+
+    def total_patient(self):
+        number = len(self.strains.all())
+        return number
+
+
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
@@ -107,6 +139,7 @@ class Customer(db.Model):
     address = db.Column(db.String(255))
     telephone = db.Column(db.String(140), index=True, unique=True)
     email = db.Column(db.String(255), index=True, unique=True)
+    orders = db.relationship('Order', backref='customer', lazy='dynamic')
     strains = db.relationship('Strain', backref='customer', lazy='dynamic')
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
@@ -144,6 +177,7 @@ class Frame(db.Model):
     name = db.Column(db.String(150), unique=True)
     description = db.Column(db.String(200))
     strains = db.relationship('Strain', backref='frame', lazy='dynamic')
+    orders = db.relationship('Order', backref='frame', lazy='dynamic')
 
     def __repr__(self):
         return '<Frame: {}>'.format(self.name)
@@ -191,6 +225,7 @@ strain_hole_history = db.Table(
 class Strain(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     origin_id = db.Column(db.Integer, db.ForeignKey('origin.id'))
     frame_id = db.Column(db.Integer, db.ForeignKey('frame.id'))
     strain_type_id = db.Column(db.Integer, db.ForeignKey('strain_type.id'))
@@ -293,6 +328,7 @@ class Notification(db.Model):
 class Temperature(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
 

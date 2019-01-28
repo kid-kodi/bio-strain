@@ -1,6 +1,35 @@
-<!doctype html>
-<title>Upload an excel file</title>
-<h1>Excel file upload (xls, xlsx, ods please)</h1>
-<form action="" method=post enctype=multipart/form-data><p>
-<input type=file name=file><input type=submit value=Upload>
-</form>
+<!--<!doctype html>-->
+<!--<title>Upload an excel file</title>-->
+<!--<h1>Excel file upload (xls, xlsx, ods please)</h1>-->
+<!--<form action="" method=post enctype=multipart/form-data><p>-->
+    <!--<input type=file name=file><input type=submit value=Upload>-->
+    <!--<a class="btn" href="{{ url_for('static', filename = 'configuration.xlsx') }}">-->
+        <!--Téléchager un exemplaire de données-->
+    <!--</a>-->
+<!--</form>-->
+
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block body %}
+    <div class="container mt-2">
+      <div class="row justify-content-md-center">
+        <div class="col-md-6 col-md-offset-3">
+            <h2 class="text-center">Configurer votre application</h2>
+            <p class="text-center">(xls, xlsx, ods please)</p>
+            <form action="" method=post enctype=multipart/form-data>
+                <div class="custom-file my-2">
+                  <input type=file name=file class="form-control">
+                </div>
+                <div class="my-2">
+                    <input class="btn btn-success btn-block" type=submit value=Upload>
+                </div>
+            </form>
+            <p class="text-center">
+                <a class="btn" href="{{ url_for('static', filename = 'configuration.xlsx') }}">Téléchager un exemplaire de configuration</a>
+            </p>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% set active_page = "order" %}
+{% block body %}
+<!-- just to display all potential errors -->
+    <div class="bar">
+        <h2>{{ _('Formulaire d\'enregistrement de dépôt') }}</h2>
+    </div>
+    <form action="" method="post" novalidate enctype=multipart/form-data>
+        <div class="block">
+            <div class="bar">
+                <h2>Client</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>
+                        {{ form.customer.label }}
+                    </label>
+                    {{ form.customer(class_="form-control") }}
+                    {% for error in form.customer.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        {{ form.frame.label }}
+                    </label>
+                    {{ form.frame(class_="form-control") }}
+                    {% for error in form.frame.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="bar">
+                <h2>Déposant</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>
+                        {{ form.first_name.label }}
+                    </label>
+                    {{ form.first_name(class_="form-control") }}
+                    {% for error in form.first_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        {{ form.last_name.label }}
+                    </label>
+                    {{ form.last_name(class_="form-control") }}
+                    {% for error in form.last_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>
+                        {{ form.telephone.label }}
+                    </label>
+                    {{ form.telephone(class_="form-control") }}
+                    {% for error in form.telephone.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>
+                        {{ form.send_date.label }}
+                    </label>
+                    {{ form.send_date(class_="form-control datepicker") }}
+                    {% for error in form.send_date.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="bar">
+                <h2>Transport</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>
+                        {{ form.receive_date.label }}
+                    </label>
+                    {{ form.receive_date(class_="form-control datepicker") }}
+                    {% for error in form.receive_date.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        {{ form.temperature.label }}
+                    </label>
+                    {{ form.temperature(class_="form-control") }}
+                    {% for error in form.temperature.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>
+                        {{ form.nbr_pack.label }}
+                    </label>
+                    {{ form.nbr_pack(class_="form-control") }}
+                    {% for error in form.nbr_pack.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>
+                        {{ form.file.label }}
+                    </label>
+                    {{ form.file(class_="form-control") }}
+                    {% for error in form.file.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    {{ form.hidden_tag() }}
+                    {{ form.submit(class_="btn btn-success") }}
+                </p>
+            </div>
+        </div>
+    </form>
+{% endblock %}

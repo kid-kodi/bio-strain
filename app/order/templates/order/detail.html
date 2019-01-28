@@ -1,0 +1,138 @@
+{% extends "collect.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% set active_page = "order" %}
+{% block collect_content %}
+<div class="bar">
+    <div class="title">
+        <h1>{{_('Numéro de réception : ')}}{{order.serial}}</h1>
+    </div>
+    <div class="actions">
+
+        <ul class="nav nav-pills">
+            {% if order.status == 0 %}
+                <li><a class="btn btn-default" href="{{ url_for('order.edit', id=order.id) }}">{{_('Modifier')}}</a></li>
+                <li><a class="btn btn-success" href="{{ url_for('order.validate', id=order.id) }}">{{_('Valider')}}</a></li>
+            {% endif %}
+            {% if order.patients.all()|length > 0 %}
+            <li>
+                <a class="btn btn-default" href="{{ url_for('order.remove_all', id=order.id) }}"><span
+                    class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                </a>
+            </li>
+            <li>
+                <a class="btn btn-default" href="{{ url_for('order.add_all', id=order.id) }}"><span
+                    class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+
+    </div>
+</div>
+<div class="block">
+    <div class="bar">
+        <h1>{{_('Information générale')}}</h1>
+    </div>
+    <table class="table">
+        <tr>
+            <td>Client</td>
+            <td>{{order.project.customer.display_as}}</td>
+        </tr>
+        <tr>
+            <td>Projet</td>
+            <td>{{order.project.title}}</td>
+        </tr>
+        <tr>
+            <td>Déposant</td>
+            <td>{{order.first_name + ' ' + order.last_name + ' TEL : ' + order.telephone}}</td>
+        </tr>
+        <tr>
+            <td>Date de reception</td>
+            <td>{{order.receive_date}}</td>
+        </tr>
+        <tr>
+            <td>Date d'envoi</td>
+            <td>{{order.send_date}}</td>
+        </tr>
+        <tr>
+            <td>temperature de transport</td>
+            <td>{{order.temperature.name}}</td>
+        </tr>
+        <tr>
+            <td>Nombre de paquet</td>
+            <td>{{order.nbr_pack}}</td>
+        </tr>
+        <tr>
+            <td>Fichier des échantillons</td>
+            <td><a href="{{order.file_url}}">{{order.file_name}}</a></td>
+        </tr>
+        <tr>
+            <td>Enregistré le</td>
+            <td>{{ moment(order.timestamp).format('LLL') }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="block">
+    <div class="bar">
+        <h1>{{_('Echantillons')}}</h1>
+    </div>
+    {% if order.patients.all() | length > 0%}
+    <div>
+        {% for patient in order.patients %}
+            <div class="bar">
+                <h3>
+                    <th>{{patient.bio_code}}</th>
+                    <th>Sexe {{patient.sexe}} </th>
+                    <th>Année naissance {{patient.birthday}}</th>
+                    <th>Total échantillon {{patient.samples.all()|length}}</th>
+                </h3>
+            </div>
+            {% for sample in patient.samples %}
+                <table class="table">
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="items" value="{{sample.id}}">
+                        </td>
+                        <td>{{sample.code}}</td>
+                        <td>{{sample.sample_nature.name}}</td>
+                        <td>{{sample.sample_type.name}}</td>
+                        <td>{{sample.support.name}}</td>
+                        <td>{{sample.volume}}/{{sample.mesure.name}}</td>
+                        <td>{{sample.date}}</td>
+                        <td>
+                            <ul class="nav nav-pills">
+                                {% if sample.basket_id == None %}
+                                <li>
+                                    <a class="btn btn-default" href="{{ url_for('order.addtolist', id=sample.id) }}">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a class="btn btn-default" href="{{ url_for('order.removefromlist', id=sample.id) }}"><span
+                                        class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                <li><a class="btn btn-default" href="{{ url_for('sample.detail', id=sample.id) }}">Voir</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="blankslate blankslate-spacious blankslate-large">
+        <svg height="40" class="octicon octicon-issue-opened blankslate-icon" viewBox="0 0 14 16" version="1.1"
+             width="35" aria-hidden="true">
+            <path fill-rule="evenodd"
+                  d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
+        </svg>
+        <h3>{{_('En attente du traitement du fichier')}}</h3>
+        <p>{{_('')}}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

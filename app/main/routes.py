@@ -10,7 +10,7 @@ from flask_babel import _, get_locale
 from app import db, excel, images
 from . import bp
 from ..models import User, Strain, Frame, SampleType, StrainType, Phenotype, Basket, Notification, Message, Origin, \
-    Category
+    Category, Temperature
 from .forms import EditProfileForm, ChangePasswordForm, SearchForm, ChangeAvatarForm, MessageForm
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -192,6 +192,14 @@ def setup():
                 # Create a For loop to iterate through each row in the XLS file, starting at row 2 to skip the headers
                 for r in range(1, data_sheet.nrows):
                     item = Phenotype(name=data_sheet.cell(r, 0).value, description=data_sheet.cell(r, 1).value)
+                    db.session.add(item)
+                    db.session.commit()
+
+            if sheet.name == 'Temperature':
+                data_sheet = book.sheet_by_name("Temperature")
+                # Create a For loop to iterate through each row in the XLS file, starting at row 2 to skip the headers
+                for r in range(1, data_sheet.nrows):
+                    item = Temperature(name=data_sheet.cell(r, 0).value, description=data_sheet.cell(r, 1).value)
                     db.session.add(item)
                     db.session.commit()
 

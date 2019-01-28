@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% set navigation_bar = [
+    ('/order', 'order', 'Reception'),
+    ('/expo', 'expd', 'Expedition')
+] -%}
+{% set active_page = active_page|default('index') -%}
+
+{% block body %}
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav nav-pills nav-stacked">
+                {% for href, id, caption in navigation_bar %}
+                <li{% if id == active_page %} class="active"{% endif
+                %}><a href="{{ href|e }}">{{_(caption|e) }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </nav>
+        <div class="col-md-10">
+            {% block collect_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
