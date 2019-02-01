@@ -3,56 +3,63 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block storage_content %}
+{% if list %}
 <div class="bar">
     <h1>{{_('Rack')}}</h1>
     <div class="actions">
         <ul class="nav nav-pills">
             <li>
-                <a class="btn btn-default" href="{{ url_for('rack.add') }}">{{_('Add rack')}}</a>
+                <a class="btn btn-default" href="{{ url_for('rack.add') }}">{{_('Nouveau rack')}}</a>
             </li>
         </ul>
     </div>
 </div>
-    {% if list %}
-    <div class="actions-bar">
-        <form class="form-inline" method="post" action="">
-            {{ search_form.hidden_tag() }}
-            <div class="form-group">
-                {{ search_form.name(size=20, class='form-control', placeholder=search_form.name.label.text) }}
-            </div>
-        </form>
-    </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Nom du rack</th>
-            <th>Equipment</th>
-            <th>Nombre d'espace</th>
-            <th class="text-right"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in list %}
-        <tr>
-            <td>{{item.name}}</td>
-            <td>{{item.equipment.name}}</td>
-            <td>{{item.max_number}}</td>
-            <td class="text-right">
-                <a href="{{ url_for('rack.edit', id=item.id) }}">{{_('Edit')}}</a>
-                <a href="{{ url_for('rack.detail', id=item.id) }}">{{_('Detail')}}</a>
-                <a href="{{ url_for('rack.delete', id=item.id) }}">{{_('Delete')}}</a>
-            </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <div class="panel panel-default">
-        <div class="panel-body text-center">
-            <h3>Aucun rack enregistré</h3>
-            <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
-            <a class="btn btn-default" href="{{ url_for('rack.add') }}">{{_('Add rack')}}</a>
+<div class="actions-bar">
+    <form class="form-inline" method="post" action="">
+        {{ search_form.hidden_tag() }}
+        <div class="form-group">
+            {{ search_form.name(size=20, class='form-control', placeholder=search_form.name.label.text) }}
         </div>
+    </form>
+</div>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Nom du rack</th>
+        <th>Equipment</th>
+        <th>Nombre d'espace</th>
+        <th class="text-right"></th>
+        <th class="text-right"></th>
+        <th class="text-right"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in list %}
+    <tr>
+        <td>{{item.name}}</td>
+        <td>{{item.equipment.name}}</td>
+        <td>{{item.max_number}}</td>
+        <td class="text-right">
+            <a href="{{ url_for('rack.edit', id=item.id) }}">{{_('Modifier')}}</a>
+        </td>
+        <td class="text-right">
+            <a href="{{ url_for('rack.detail', id=item.id) }}">{{_('Detail')}}</a>
+        </td>
+        <td class="text-right">
+            <a href="{{ url_for('rack.delete', id=item.id) }}">{{_('Supprimer')}}</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="emptyspace">
+    <div class="text-center">
+        <h1>{{_('Rack')}}</h1>
+        <h3>Aucun rack enregistré</h3>
+        <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
+        <a class="btn btn-default btn-lg" href="{{ url_for('rack.add') }}">{{_('Nouveau rack')}}</a>
     </div>
-    {% endif %}
+</div>
+{% endif %}
 {% endblock %}

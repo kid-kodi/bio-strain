@@ -3,27 +3,76 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
-  <div class="row">
-    <div class="col-md-12">
-        <h1>SALUT, {{ current_user.username }}!</h1>
+<h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
+<div class="row">
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-body text-center">
+                <h3>{{_('Utilisateur')}}</h3>
+                <p>{{users|length}}</p>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="row">
-      <div class="col-md-3">
-          <div class="panel panel-default">
+    <div class="col-md-3">
+        <div class="panel panel-default">
             <div class="panel-body text-center">
-              <p>NOMBRES D'UTILISATEURS</p>
-              <h3>{{user|length}}</h3>
+                <h3>{{_('Client')}}</h3>
+                <p>{{customers|length}}</p>
             </div>
-          </div>
-      </div>
-      <div class="col-md-3">
-          <div class="panel panel-default">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
             <div class="panel-body text-center">
-              <p>NOMBRES DE SOUCHES</p>
-              <h3>{{strains|length}}</h3>
+                <h3>{{_('Projet')}}</h3>
+                <p>{{projects|length}}</p>
             </div>
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-body text-center">
+                <h3>{{_('Souches')}}</h3>
+                <p>{{samples|length}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block">
+    <h1>Emplacement</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <h3>{{_('Salle')}}</h3>
+                    <p>{{rooms|length}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <h3>{{_('Equipement')}}</h3>
+                    <p>{{equipment|length}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <h3>{{_('Boîte')}}</h3>
+                    <p>{{box|length}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <h3>{{_('Espace')}}</h3>
+                    <p>{{hole|length}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

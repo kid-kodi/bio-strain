@@ -45,11 +45,12 @@ def add():
     form = RoomForm()
     if form.validate_on_submit():
         room = Room(name=form.name.data,
+                    description=form.description.data,
                     created_at=datetime.utcnow(),
                     created_by=current_user.id)
         db.session.add(room)
         db.session.commit()
-        flash(_('Data saved!'))
+        flash(_('Donnée enregistrée!'))
         return redirect(url_for('room.index'))
     return render_template('room/form.html', action="Add",
                            add=add, form=form,
@@ -64,13 +65,15 @@ def edit(id):
     form = RoomForm(obj=room)
     if form.validate_on_submit():
         room.name = form.name.data
+        room.description = form.description.data
         db.session.commit()
-        flash('You have successfully edited the room.')
+        flash('Modification effectuée.')
 
         # redirect to the bps page
         return redirect(url_for('room.index'))
 
     form.name.data = room.name
+    form.description.data = room.description
     return render_template('room/form.html', action="Edit",
                            add=add, form=form,
                            room=room, title="Edit room")

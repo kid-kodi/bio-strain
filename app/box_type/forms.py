@@ -8,7 +8,7 @@ from app.models import BoxType
 
 class SearchForm(FlaskForm):
     name = StringField(_l('Type de boîte'))
-    submit = SubmitField('Search')
+    submit = SubmitField('Rechercher')
 
 
 class BoxTypeForm(FlaskForm):

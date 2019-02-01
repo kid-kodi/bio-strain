@@ -23,4 +23,4 @@ class OrderForm(FlaskForm):
     receive_date = StringField(_l('Date de reception'), validators=[DataRequired()])
     nbr_pack = StringField(_l('Nombre de paquet'), validators=[DataRequired()])
     file = FileField('Selectionner un fichier')
-    submit = SubmitField(_l('Suivant'))
+    submit = SubmitField(_l('Enregistrer'))

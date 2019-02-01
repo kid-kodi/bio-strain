@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 
 from . import bp
 from .forms import StrainForm, SearchForm
-from .. import db, images
+from .. import db, documents
 from ..models import Strain, Origin, Customer, Frame, User, StrainType, SampleType, Phenotype, Room, Equipment, Rack, \
     Box, Hole, Basket
 import xlrd, app

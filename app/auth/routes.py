@@ -1,73 +1,84 @@
-# app/auth/views.py
-import os
-from flask import flash, redirect, render_template, url_for, current_app
-from flask_login import login_required, login_user, logout_user
-
-from . import auth
-from .forms import LoginForm, RegistrationForm
-from .. import db
-from ..models import User, Basket
-
-
-@auth.route('/register', methods=['GET', 'POST'])
-def register():
-    """
-    Handle requests to the /register route
-    Add an user to the database through the registration form
-    """
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(avatar=os.path.join(current_app.config['UPLOADS_DEFAULT_DEST'], 'default.png'),
-                    email=form.email.data,
-                    username=form.username.data,
-                    first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    password=form.password.data)
-        basket = Basket(name='Mon panier', description='')
-        user.baskets.append(basket)
-        # add user to the database
-        db.session.add(user)
-        db.session.commit()
-        flash('You have successfully registered! You may now login.')
-
-        # redirect to the login page
-        return redirect(url_for('auth.login'))
-
-    # load registration template
-    return render_template('auth/register.html', form=form, title='Register')
+from flask import render_template, redirect, url_for, flash, request
+from werkzeug.urls import url_parse
+from flask_login import login_user, logout_user, current_user
+from flask_babel import _
+from app import db
+from app.auth import bp
+from app.auth.forms import LoginForm, RegistrationForm, \
+    ResetPasswordRequestForm, ResetPasswordForm
+from app.models import User, Basket
+from app.auth.email import send_password_reset_email
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@bp.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
-
-        # check whether user exists in the database and whether
-        # the password entered matches the password in the database
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password(
-                form.password.data):
-            # log user in
-            login_user(user)
-
-            return redirect(url_for('main.dashboard'))
-        # when login details are incorrect
-        else:
-            flash('Invalid email or password.')
-
-    # load login template
-    return render_template('auth/login.html', form=form, title='Login')
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash(_('Pseudonyme ou mot de passe invalide'))
+            return redirect(url_for('auth.login'))
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('main.index')
+        return redirect(next_page)
+    return render_template('auth/login.html', title=_('Sign In'), form=form)
 
 
-@auth.route('/logout')
-@login_required
+@bp.route('/logout')
 def logout():
-    """
-    Handle requests to the /logout route
-    Log an user out through the logout link
-    """
     logout_user()
-    flash('You have successfully been logged out.')
+    return redirect(url_for('main.index'))
 
-    # redirect to the login page
-    return redirect(url_for('auth.login'))
+
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        basket = Basket(name='Mon panier', description='')
+        user.baskets.append(basket)
+        db.session.add(user)
+        db.session.commit()
+        flash(_('Enregistrement effectué'))
+        return redirect(url_for('auth.login'))
+    return render_template('auth/register.html', title=_('Register'),
+                           form=form)
+
+
+@bp.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash(
+            _('Check your email for the instructions to reset your password'))
+        return redirect(url_for('auth.login'))
+    return render_template('auth/reset_password_request.html',
+                           title=_('Reset Password'), form=form)
+
+
+@bp.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('main.index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash(_('Your password has been reset.'))
+        return redirect(url_for('auth.login'))
+    return render_template('auth/reset_password.html', form=form)

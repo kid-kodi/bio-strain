@@ -3,9 +3,22 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block body %}
-    <h1>Excel file upload (csv, tsv, csvz, tsvz only)</h1>
-    <form action="" method=post enctype=multipart/form-data><p>
-        <input type=file name=file>
-        <input type=submit value=Upload>
-    </form>
+<h1>Selectionner le fichier dont vous voulez importer les données (csv, xsl, xslx, seulement)</h1>
+<p>Le fichier doit contenir les entêtes suivant :</p>
+<ul>
+    <li><b>Raison sociale</b></li>
+    <li><b>Nom</b></li>
+    <li><b>Prénoms</b></li>
+    <li><b>Adresse</b></li>
+    <li><b>Téléphone</b></li>
+    <li><b>Email</b></li>
+</ul>
+<p>Cliquer sur le lien ci-dessous pour télécharger notre fichier exemple <a
+        href="{{ url_for('static', filename='templates/client.xlsx') }}"> Télécharger</a></p>
+
+<form action="" method=post enctype=multipart/form-data>
+    <input class="form-control" type=file name=file>
+    <hr>
+    <input class="btn btn-primary btn-lg" type=submit value='Charger'>
+</form>
 {% endblock %}

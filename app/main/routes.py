@@ -7,9 +7,9 @@ from flask import render_template, flash, redirect, url_for, request, g, \
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 
-from app import db, excel, images
+from app import db, excel, documents
 from . import bp
-from ..models import User, Strain, Frame, SampleType, StrainType, Phenotype, Basket, Notification, Message, Origin, \
+from ..models import User, Strain, Frame, Customer, SampleType, StrainType, Phenotype, Basket, Notification, Message, Origin, \
     Category, Temperature
 from .forms import EditProfileForm, ChangePasswordForm, SearchForm, ChangeAvatarForm, MessageForm
 
@@ -26,13 +26,12 @@ def before_request():
 
 
 @bp.route('/')
-def dashboard():
-    """
-    Render the bppage template on the / route
-    """
-    user = User.query.all()
+@login_required
+def index():
+    users = User.query.all()
+    customers = Customer.query.all()
     strains = Strain.query.all()
-    return render_template('main/index.html', user=user, strains=strains, title="Welcome")
+    return render_template('main/index.html', users=users, customers=customers, strains=strains, title="Welcome")
 
 
 @bp.route('/user/<username>')
@@ -78,13 +77,13 @@ def change_avatar():
     form = ChangeAvatarForm()
     if form.validate_on_submit():
         if 'image' in request.files:
-            filename = images.save(request.files['image'])
-            url = images.url(filename)
+            filename = documents.save(request.files['image'])
+            url = documents.url(filename)
             print('file exist')
         else:
             print('file do not exist')
             filename = 'default.png'
-            url = os.path.join(basedir, '/static/img/default.png')
+            url = os.path.join(basedir, '/static/images/default.png')
 
         current_user.avatar = url
         db.session.commit()
@@ -206,7 +205,7 @@ def setup():
         # Delete image when done with analysis
         os.remove(os.path.join(basedir, filename))
         flash('Initialisation des données effecutées')
-        return redirect(url_for('.dashboard'))
+        return redirect(url_for('.index'))
     return render_template('main/setup.html')
 
 

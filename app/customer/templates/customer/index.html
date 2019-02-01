@@ -3,52 +3,53 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block body %}
-    <div class="bar">
-        <h1>{{ _('Client') }}</h1>
-        <div class="actions">
-            <ul class="nav nav-pills">
-                <li><a class="btn btn-default" href="{{ url_for('customer.download') }}">{{ _('Télécharger template') }}</a></li>
-                <li><a class="btn btn-default" href="{{ url_for('customer.import_data') }}">{{ _('Importer') }}</a></li>
-                <li><a class="btn btn-default" href="{{ url_for('customer.export_data') }}">{{ _('Exporter') }}</a></li>
-              <li><a class="btn btn-default" href="{{ url_for('customer.add') }}">{{ _('Nouveau client') }}</a></li>
-            </ul>
-        </div>
+{% if customers | length > 0 %}
+<div class="bar">
+    <h1>{{ _('Client') }}</h1>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li><a class="btn btn-default" href="{{ url_for('customer.import_data') }}">{{ _('Importer') }}</a></li>
+            <li><a class="btn btn-default" href="{{ url_for('customer.export_data') }}">{{ _('Exporter') }}</a></li>
+            <li><a class="btn btn-default" href="{{ url_for('customer.add') }}">{{ _('Nouveau client') }}</a></li>
+        </ul>
     </div>
-    {% if customers | length > 0 %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>{{_('Catégorie')}}</th>
-          <th>{{_('Raison sociale')}}</th>
-          <th>{{_('Téléphone')}}</th>
-          <th>{{_('Email')}}</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for customer in customers %}
-        <tr>
-          <td>{{customer.id}}</td>
-          <td>{{customer.category.name}}</td>
-          <td>{{customer.display_as}}</td>
-          <td>{{customer.telephone}}</td>
-          <td>{{customer.email}}</td>
-          <td>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th></th>
+        <th>{{_('Catégorie')}}</th>
+        <th>{{_('Raison sociale')}}</th>
+        <th>{{_('Téléphone')}}</th>
+        <th>{{_('Email')}}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for customer in customers %}
+    <tr>
+        <td>{{customer.id}}</td>
+        <td>{{customer.category.name}}</td>
+        <td>{{customer.display_as}}</td>
+        <td>{{customer.telephone}}</td>
+        <td>{{customer.email}}</td>
+        <td>
             <a href="{{ url_for('customer.detail', id=customer.id) }}">{{ _('Détails') }}</a>
             <a href="{{ url_for('customer.edit', id=customer.id) }}">{{ _('Modifier') }}</a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-    <div class="panel panel-default emptyspace">
-      <div class="panel-body text-center">
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="panel panel-default emptyspace">
+    <div class="panel-body text-center">
+        <h1>{{ _('Client') }}</h1>
         <h3>Aucun(e)s client(e)s enregistré(e)s</h3>
         <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
         <a class="btn btn-default" href="{{ url_for('customer.add') }}">{{_('Nouveau client')}}</a>
-      </div>
     </div>
-    {% endif %}
+</div>
+{% endif %}
 {% endblock %}

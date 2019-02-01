@@ -5,12 +5,56 @@
     <h1>{{ equipment.name }}</h1>
     <div class="actions">
         <ul class="nav nav-pills">
-            <li><a href="{{ url_for('equipment.edit', id=equipment.id) }}">{{ _('Edit equipment') }}</a></li>
+            <li><a class="btn btn-default" href="{{ url_for('equipment.edit', id=equipment.id) }}">{{ _('Modifier equipment') }}</a></li>
         </ul>
     </div>
 </div>
-<div class="block">
+<div class="box">
+    {% if equipment.racks.all() | length > 0 %}
     <h3>Racks</h3>
-    <div></div>
+    <p>Nombre len(equipment.racks.all())</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom du rack</th>
+            <th>Salle</th>
+            <th>Espace Total</th>
+            <th>Espace Oqp</th>
+            <th>Crée le</th>
+            <th class="text-right"></th>
+            <th class="text-right"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in room.racks %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{item.equipment.name}}</td>
+            <td>{{item.max_number}}</td>
+            <td>{{item.boxes.all()|length}}</td>
+            <td>{{moment(item.created_at).format('LLL') }}</td>
+            <td class="text-right">
+                <a href="{{ url_for('rack.edit', id=item.id) }}">{{_('Modifier')}}</a>
+            </td>
+            <td class="text-right">
+                <a href="{{ url_for('rack.delete', id=item.id) }}">{{_('Supprimer')}}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="emptyspace">
+        <div class="text-center">
+            <h1 style="text-align:center;">Racks</h1>
+            <h3>Aucune donnée n'a été ajoutée. </h3>
+            <p>veuillez en créer une en cliquant sur le lien ci-dessous</p>
+            <a href="{{ url_for('rack.add') }}" class="btn btn-default btn-lg">
+                <i class="fa fa-plus"></i>
+                Ajouter un rack
+            </a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

@@ -3,6 +3,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block storage_content %}
+{% if list %}
 <div class="bar">
     <h1>{{_('Boite')}}</h1>
     <div class="actions">
@@ -14,63 +15,49 @@
     </div>
 </div>
 <div class="">
-  {% if list %}
-  <div class="actions-bar">
-    <form class="form-inline" method="post" action="">
-      {{ search_form.hidden_tag() }}
-      <div class="form-group">
-        {{ search_form.name(size=20, class='form-control', placeholder=search_form.name.label.text) }}
-      </div>
-    </form>
-  </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Nom de la boite</th>
-        <th>Type de boite</th>
-        <th>Espace</th>
-        <th>Rack</th>
-        <th class="text-right"></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in list %}
-      <tr>
-        <td>{{item.name}}</td>
-        <td>{{item.box_type.name}}</td>
-        <td>{{item.box_type.max_number}}</td>
-        <td>{% if item.rack %} {{item.rack.equipment.name + ' - ' + item.rack.name}}{% endif %}</td>
-        <td class="text-right">
-          <a href="{{ url_for('box.edit', id=item.id) }}">{{_('Edit')}}</a>
-          <a href="{{ url_for('box.detail', id=item.id) }}">{{_('Detail')}}</a>
-          <a href="{{ url_for('box.delete', id=item.id) }}">{{_('Delete')}}</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <nav aria-label="...">
-    <ul class="pager">
-      <li class="previous{% if not prev_url %} disabled{% endif %}">
-        <a href="{{ prev_url or '#' }}">
-          <span aria-hidden="true">&larr;</span> {{ _('Newer posts') }}
-        </a>
-      </li>
-      <li class="next{% if not next_url %} disabled{% endif %}">
-        <a href="{{ next_url or '#' }}">
-          {{ _('Older posts') }} <span aria-hidden="true">&rarr;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  {% else %}
-  <div class="panel panel-default emptyspace">
-    <div class="panel-body text-center">
-      <h3>Aucun box enregistré</h3>
-      <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
-      <a class="btn btn-default" href="{{ url_for('box.add') }}">{{_('Add box')}}</a>
+    <div class="actions-bar">
+        <form class="form-inline" method="post" action="">
+            {{ search_form.hidden_tag() }}
+            <div class="form-group">
+                {{ search_form.name(size=20, class='form-control', placeholder=search_form.name.label.text) }}
+            </div>
+        </form>
     </div>
-  </div>
-  {% endif %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom de la boite</th>
+            <th>Type de boite</th>
+            <th>Espace</th>
+            <th>Rack</th>
+            <th class="text-right"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in list %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.box_type.name}}</td>
+            <td>{{item.box_type.max_number}}</td>
+            <td>{% if item.rack %} {{item.rack.equipment.name + ' - ' + item.rack.name}}{% endif %}</td>
+            <td class="text-right">
+                <a class="btn btn-default" href="{{ url_for('box.edit', id=item.id) }}">{{_('Modifier')}}</a>
+                <a class="btn btn-default" href="{{ url_for('box.detail', id=item.id) }}">{{_('Detail')}}</a>
+                <a class="btn btn-default" href="{{ url_for('box.delete', id=item.id) }}">{{_('Supprimer')}}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="emptyspace">
+        <div class="text-center">
+            <h1>{{_('Boite')}}</h1>
+            <h3>{{_('Aucune boite enregistrée')}}</h3>
+            <p>{{_('veuillez en créer une en cliquant sur le lien ci-dessous')}}</p>
+            <a class="btn btn-default btn-lg" href="{{ url_for('box.add') }}">{{_('Nouvelle boite')}}</a>
+        </div>
+    </div>
 </div>
+{% endif %}
 {% endblock %}

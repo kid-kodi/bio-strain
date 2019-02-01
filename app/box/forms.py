@@ -13,8 +13,8 @@ class SearchForm(FlaskForm):
 
 class BoxForm(FlaskForm):
     rack = SelectField(choices=[], coerce=int, label="Choisir le rack")
-    box_type = SelectField(choices=[], coerce=int, label="Choisir le type de box")
-    name = StringField(_l('Box name'), validators=[DataRequired()])
+    box_type = SelectField(choices=[], coerce=int, label="Choisir le type de boite")
+    name = StringField(_l('Nom de la boite'), validators=[DataRequired()])
     horizontal = StringField(_l('Nombre de ligne'), validators=[DataRequired()])
     vertical = StringField(_l('Nombre de colonne'), validators=[DataRequired()])
-    submit = SubmitField(_l('Save'))
+    submit = SubmitField(_l('Enregistrer'))

@@ -4,6 +4,8 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block storage_content %}
+
+{% if list %}
 <div class="bar">
     <h1>Equipements</h1>
     <div class="actions">
@@ -14,8 +16,6 @@
         </ul>
     </div>
 </div>
-
-{% if list %}
 <div class="bar">
     <form class="subnav-search float-left" action="" method="post">
         {{ search_form.hidden_tag() }}
@@ -23,7 +23,7 @@
         input-contrast', placeholder=search_form.name.label.text) }}
     </form>
 </div>
-<table class="table">
+<table class="table table-striped table-bordered">
     <thead>
     <tr>
         <th>Nom de l'équipement</th>
@@ -31,21 +31,26 @@
         <th>Salle</th>
         <th>Espace Total</th>
         <th>Espace Oqp</th>
-        <th class="text-right"></th>
+        <th class="text-right">Détails</th>
+        <th class="text-right">Modifier</th>
+        <th class="text-right">Supprimer</th>
     </tr>
     </thead>
     <tbody>
     {% for item in list %}
     <tr>
-        <td>
-            <a href="{{ url_for('equipment.detail', id=item.id) }}">{{ item.name }}</a>
-        </td>
+        <td>{{ item.name }}</td>
         <td>{{item.equipment_type.name}}</td>
         <td>{{item.room.name}}</td>
         <td>{{item.max_number}}</td>
         <td>{{item.racks.all()|length}}</td>
         <td class="text-right">
+            <a href="{{ url_for('equipment.detail', id=item.id) }}">{{_('Details')}}</a>
+        </td>
+        <td class="text-right">
             <a href="{{ url_for('equipment.edit', id=item.id) }}">{{_('Modifier')}}</a>
+        </td>
+        <td class="text-right">
             <a href="{{ url_for('equipment.delete', id=item.id) }}">{{_('Supprimer')}}</a>
         </td>
     </tr>
@@ -56,13 +61,13 @@
     {{ macros.pagination_widget(pagination, '.index') }}
 </div>
 {% else %}
-<div class="blankslate blankslate-spacious blankslate-large text-center">
-    <svg height="40" class="octicon octicon-issue-opened blankslate-icon" viewBox="0 0 14 16" version="1.1"
-         width="35" aria-hidden="true">
-        <path fill-rule="evenodd"
-              d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
-    </svg>
-    <h3>Aucun équipement</h3>
+<div class="emptyspace">
+    <div class="text-center">
+        <h1>{{_('Equipement')}}</h1>
+        <h3>Aucun type equipement enregistré</h3>
+        <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
+        <a class="btn btn-default btn-lg" href="{{ url_for('equipment.add') }}">{{_('Nouvel equipement')}}</a>
+    </div>
 </div>
 {% endif %}
 {% endblock %}

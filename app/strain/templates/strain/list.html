@@ -55,7 +55,7 @@
                 <th> Produit bio.</th>
                 <th> Nom de la souche</th>
                 <th> Service</th>
-                <th> Actions</th>
+                <th class="text-right"> Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -67,28 +67,23 @@
                 <td> {{ item.sample_type.name }}</td>
                 <td> {{ item.strain_type.name }}</td>
                 <td> {{ item.customer.display_as}}</td>
-                <td>
-                    <ul class="nav nav-pills">
-                        {% if item.basket_id == None %}
-                        <li>
-                            <a class="btn btn-default" href="{{ url_for('strain.addtolist', id=item.id) }}">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
-                        {% else %}
-                        <li><a class="btn btn-default" href="{{ url_for('strain.removefromlist', id=item.id) }}"><span
-                                class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></li>
-                        {% endif %}
-                        <li><a class="btn btn-default" href="{{ url_for('strain.detail', id=item.id) }}">Voir</a></li>
-                        <li>
-                            <a class="btn btn-default" href="{{ url_for('strain.edit', id=item.id) }}">
-                                <i class="fa fa-pencil"></i> Modifier
-                            </a>
-                        </li>
-                        <li>
-                            <a class="btn btn-default" href="{{ url_for('strain.delete', id=item.id) }}">
-                                <i class="fa fa-trash"></i> Supprimer
-                            </a>
-                        </li>
-                    </ul>
+                <td class="text-right">
+                    {% if item.basket_id == None %}
+                    <a class="btn btn-default" href="{{ url_for('strain.addtolist', id=item.id) }}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </a>
+                    {% else %}
+                    <a class="btn btn-default" href="{{ url_for('strain.removefromlist', id=item.id) }}"><span
+                            class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    </a>
+                    {% endif %}
+                    <a class="btn btn-default" href="{{ url_for('strain.detail', id=item.id) }}">Voir</a>
+                    <a class="btn btn-default" href="{{ url_for('strain.edit', id=item.id) }}">
+                        <i class="fa fa-pencil"></i> Modifier
+                    </a>
+                    <a class="btn btn-default" href="{{ url_for('strain.delete', id=item.id) }}">
+                        <i class="fa fa-trash"></i> Supprimer
+                    </a>
                 </td>
             </tr>
             {% endfor %}

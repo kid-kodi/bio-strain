@@ -45,7 +45,7 @@ height:25px;
 
 
 .bar{
-    padding-bottom: 9px;
+    padding-bottom: 50px;
     margin: 20px 0 20px;
     border-bottom: 1px solid #eee;
     justify-content: space-between;
@@ -80,3 +80,29 @@ height:25px;
     border-left : 5px solid;
 }
 
+.center-block{
+    margin : auto;
+    width : 300px;
+}
+
+.center-block img{
+    display: flex;
+    /* align-self: center; */
+    /* justify-content: center; */
+    margin-top: 50px;
+    margin-left : auto;
+    margin-right: auto;
+    width : 40px;
+    height : 35px;
+}
+
+.center-block h1{
+	text-align : center;
+	margin: 25px 0 30px 0;
+}
+
+
+.emptyspace{
+
+    margin-top:100px;
+}

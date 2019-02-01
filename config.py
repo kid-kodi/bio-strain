@@ -16,6 +16,7 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['your-email@example.com']
+    LOG_TO_STDOUT = ['your-email@example.com']
     LANGUAGES = ['en', 'es']
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
@@ -23,9 +24,9 @@ class Config(object):
     FLASK_PER_PAGE = 25
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
 
-    UPLOADS_DEFAULT_DEST = os.path.join(basedir, 'app/static/img/')
+    UPLOADS_DEFAULT_DEST = os.path.join(basedir, 'app/static/images/')
     UPLOAD_FOLDER = os.path.join(basedir, 'app/static/temp/')
-    UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/img/'
+    UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/images/'
 
-    UPLOADED_IMAGES_DEST = os.path.join(basedir, 'app/static/img/')
-    UPLOADED_IMAGES_URL = 'http://localhost:5000/static/img/'
+    UPLOADED_IMAGES_DEST = os.path.join(basedir, 'app/static/images/')
+    UPLOADED_IMAGES_URL = 'http://localhost:5000/static/images/'

@@ -5,7 +5,7 @@ from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app, send_from_directory
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
-from app import db, images
+from app import db, documents
 from app.order.forms import OrderForm, ImportForm
 from app.models import Order, Customer, Strain, Origin, StrainType, Frame, Phenotype, SampleType, Temperature, Basket
 from app.order import bp
@@ -17,7 +17,7 @@ basedir = ''
 @login_required
 def index():
     orders = Order.query.all()
-    return render_template('order/index.html', orders=orders)
+    return render_template('order/index.html', orders=orders, Order=Order)
 
 
 @bp.route('/order/download_file/<filename>')
@@ -38,8 +38,8 @@ def add():
 
         if 'file' in request.files:
             file = request.files['file']
-            order.file_name = images.save(file)
-            order.file_url = images.url(order.file_name)
+            order.file_name = documents.save(file)
+            order.file_url = documents.url(order.file_name)
 
         order.serial = get_order_code()
         order.frame_id = form.frame.data
@@ -74,7 +74,8 @@ def detail(id):
 @login_required
 def validate(id):
     order = Order.query.get(id)
-    filename = order.file_url
+    filename = order.file_name
+    print(filename)
     # Write file to static directory and do the hot dog check
     book = xlrd.open_workbook(os.path.join(basedir, filename))
     for sheet in book.sheets():
@@ -122,8 +123,8 @@ def edit(id):
 
         if 'file' in request.files:
             file = request.files['file']
-            order.file_name = images.save(file)
-            order.file_url = images.url(order.file_name)
+            order.file_name = documents.save(file)
+            order.file_url = documents.url(order.file_name)
 
         order.customer_id = form.customer.data
         order.frame_id = form.frame.data

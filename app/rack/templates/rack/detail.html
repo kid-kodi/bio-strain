@@ -1,17 +1,61 @@
 {% extends "storage.html" %}
 {% set active_page = "rack" %}
 {% block storage_content %}
-<div class="container">
-  <table class="table table-hover">
-    <tr>
-      <td>
-        <h1>{{ _('Rack') }}: {{ rack.name }}</h1>
-        {% if rack.created_at %}
-        <p>{{ _('Last seen on') }}: {{ moment(rack.created_at).format('LLL') }}</p>
-        {% endif %}
-        <p><a href="{{ url_for('rack.edit', id=rack.id) }}">{{ _('Edit rack') }}</a></p>
-      </td>
-    </tr>
-  </table>
+<div class="bar">
+    <h1>{{ rack.name }}</h1>
+    <p>{{rack.description}}</p>
+    <div class="actions">
+        <ul class="nav nav-pills">
+            <li>
+                <a class="btn btn-default" href="{{ url_for('rack.edit', id=rack.id) }}">{{_('Modifier')}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="box">
+    {% if rack.boxes.all() | length > 0 %}
+    <h3>Boites</h3>
+    <p>Nombre len(rack.boxes.all())</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom de boite</th>
+            <th>Espace Total</th>
+            <th>Espace Oqp</th>
+            <th>Crée le</th>
+            <th class="text-right"></th>
+            <th class="text-right"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in rack.boxes %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.max_number}}</td>
+            <td>{{item.racks.all()|length}}</td>
+            <td>{{moment(item.created_at).format('LLL') }}</td>
+            <td class="text-right">
+                <a href="{{ url_for('box.edit', id=item.id) }}">{{_('Modifier')}}</a>
+            </td>
+            <td class="text-right">
+                <a href="{{ url_for('box.delete', id=item.id) }}">{{_('Supprimer')}}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="emptyspace">
+        <div class="text-center">
+            <h1 style="text-align:center;">Boite</h1>
+            <h3>Aucune donnée n'a été ajoutée. </h3>
+            <p>veuillez en créer une en cliquant sur le lien ci-dessous</p>
+            <a href="{{ url_for('box.add') }}" class="btn btn-default btn-lg">
+                <i class="fa fa-plus"></i>
+                Ajouter une boite
+            </a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

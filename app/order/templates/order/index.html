@@ -2,14 +2,21 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% set active_page = "order" %}
 {% block collect_content %}
+{% if orders | length > 0 %}
 <div class="bar">
-    <h1>{{ _('Réception') }}</h1>
+    <div>
+        <h1>{{ _('Réception') }}</h1>
+        <div>
+            <span>Total : {{orders|length}}</span>
+            <span>En cour de traitement : {{Order.query.filter_by(status=0).all()|length}}</span>
+            <span>Traités : {{Order.query.filter_by(status=1).all()|length}}</span>
+        </div>
+    </div>
     <div class="actions">
         <a class="btn btn-default" href="{{ url_for('order.add', project_id=0) }}">{{ _('Nouvelle réception') }}</a>
-        <a class="btn btn-default" href="{{ url_for('order.download_file', filename='template.xls') }}">{{ _('Télécharger le template') }}</a>
+        <a class="btn btn-default" href="{{ url_for('static', filename='template.xlsx') }}">{{ _('Télécharger le template') }}</a>
     </div>
 </div>
-{% if orders | length > 0 %}
 <table class="table">
     <thead>
     <tr>
@@ -29,6 +36,7 @@
 {% else %}
 <div class="panel panel-default emptyspace">
     <div class="panel-body text-center">
+        <h1>{{ _('Réception') }}</h1>
         <h3>Aucune(s) réception(s) enregistrée(s)</h3>
         <p>veuillez en créer un en cliquant sur le lien ci-dessous</p>
         <a class="btn btn-default" href="{{ url_for('order.add') }}">{{_('Nouvelle réception')}}</a>

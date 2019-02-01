@@ -1,8 +1,8 @@
 <tr>
     <td>{{order.serial}}</td>
-    <td>{{order.project.customer.display_as}} <br> {{order.first_name}} {{order.last_name}}</td>
+    <td>{{order.customer.display_as}} <br> {{order.first_name}} {{order.last_name}}</td>
     <td>Enregistré par {{order.user.username}}, le {{ moment(order.timestamp).format('LLL') }} </td>
-    <td class="text-center">{{order.total_sample()}}</td>
+    <td class="text-center">{{order.total_strains()}}</td>
     <td class="text-right">
         {% if order.status == 0 %}
         <a class="btn btn-default" href="{{ url_for('order.edit', id=order.id) }}">Modifier</a>

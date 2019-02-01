@@ -7,10 +7,11 @@ from app.models import Room
 
 
 class SearchForm(FlaskForm):
-    name = StringField(_l('Room name'))
+    name = StringField(_l('Nom de la salle'))
     submit = SubmitField('Search')
 
 
 class RoomForm(FlaskForm):
     name = StringField(_l('Nom de la salle'), validators=[DataRequired()])
+    TextAreaField(_l('Description'))
     submit = SubmitField(_l('Enregistrer'))

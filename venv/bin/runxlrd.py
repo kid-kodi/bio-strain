@@ -1,4 +1,4 @@
-#!/main/kodi/Workspace/bio-strain/venv/bin/python3
+#!/home/kodi/Workspace/bio-strain/venv/bin/python3
 # Copyright (c) 2005-2012 Stephen John Machin, Lingfo Pty Ltd
 # This script is part of the xlrd package, which is released under a
 # BSD-style licence.
@@ -238,7 +238,7 @@ if __name__ == "__main__":
         oparser.add_option(
             "-v", "--verbosity",
             type="int", default=0,
-            help="origin of information and diagnostics provided")
+            help="level of information and diagnostics provided")
         oparser.add_option(
             "-m", "--mmap",
             type="int", default=-1,

@@ -7,8 +7,8 @@ from app.models import EquipmentType
 
 
 class SearchForm(FlaskForm):
-    name = StringField(_l('Equipment Type name'))
-    submit = SubmitField('Search')
+    name = StringField(_l('Nom du type d\'équipement'))
+    submit = SubmitField('Rechercher')
 
 
 class EquipmentTypeForm(FlaskForm):

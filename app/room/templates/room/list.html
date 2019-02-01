@@ -27,8 +27,9 @@
                     <th width="15%"> Nom</th>
                     <th width="40%"> Description</th>
                     <th width="40%"> Equipements</th>
-                    <th width="15%"> Modifier</th>
-                    <th width="15%"> Spprimer</th>
+                    <th> Details</th>
+                    <th> Modifier</th>
+                    <th> Spprimer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,6 +38,11 @@
                     <td> {{ item.name }}</td>
                     <td> {{ item.description }}</td>
                     <td> {{item.equipments.all()|length}}</td>
+                    <td>
+                        <a href="{{ url_for('room.detail', id=item.id) }}">
+                            <i class="fa fa-pencil"></i> Détails
+                        </a>
+                    </td>
                     <td>
                         <a href="{{ url_for('room.edit', id=item.id) }}">
                             <i class="fa fa-pencil"></i> Modifier
@@ -53,11 +59,11 @@
             </table>
         </div>
         {% else %}
-        <div style="text-align: center">
-            <div style="text-align: center">
+        <div class="emptyspace">
+            <div class="text-center">
                 <h1 style="text-align:center;">Salle</h1>
                 <h3>Aucune donnée n'a été ajoutée. </h3>
-                <hr class="intro-divider">
+                <p>veuillez en créer une en cliquant sur le lien ci-dessous</p>
                 <a href="{{ url_for('room.add') }}" class="btn btn-default btn-lg">
                     <i class="fa fa-plus"></i>
                     Ajouter une salle

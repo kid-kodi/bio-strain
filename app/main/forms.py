@@ -5,7 +5,7 @@ from wtforms import StringField, SubmitField, TextAreaField, PasswordField, Sele
 from wtforms.validators import ValidationError, DataRequired, Length, EqualTo
 from flask_babel import _, lazy_gettext as _l
 from app.models import User
-from app import images
+from app import documents
 
 
 class ChangePasswordForm(FlaskForm):
@@ -18,7 +18,7 @@ class ChangePasswordForm(FlaskForm):
 
 
 class ChangeAvatarForm(FlaskForm):
-    image = FileField('Image', validators=[FileAllowed(images, 'Images only')])
+    image = FileField('Image', validators=[FileAllowed(documents, 'Images only')])
     submit = SubmitField('Submit')
 
 

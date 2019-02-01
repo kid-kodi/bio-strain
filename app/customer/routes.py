@@ -1,3 +1,6 @@
+import os
+import os
+import xlrd
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
@@ -13,7 +16,7 @@ from app.customer import bp
 @login_required
 def index():
     customers = Customer.query.all()
-    return render_template('customer/index.html', customers=customers)
+    return render_template('customer/index.html', customers=customers, title="Client")
 
 
 @bp.route('/customer/add', methods=['GET', 'POST'])
@@ -30,7 +33,7 @@ def add():
         db.session.commit()
         flash(_('Nouveau Client ajouté avec succèss!'))
         return redirect(url_for('customer.index', customer_id=customer.id))
-    return render_template('customer/form.html', form=form)
+    return render_template('customer/form.html', form=form, title="Client")
 
 
 @bp.route('/customer/edit/<int:id>', methods=['GET', 'POST'])
@@ -59,50 +62,79 @@ def edit(id):
     form.address.data = customer.address
     form.telephone.data = customer.telephone
     form.email.data = customer.email
-    return render_template('customer/form.html', form=form)
+    return render_template('customer/form.html', form=form, title="Client")
 
 
 @bp.route('/customer/<int:id>', methods=['GET', 'POST'])
 @login_required
 def detail(id):
     customer = Customer.query.get(id)
-    return render_template('customer/detail.html', customer=customer)
+    return render_template('customer/detail.html', customer=customer, title="Client")
 
 
 @bp.route("/customer/export", methods=['GET'])
 @login_required
 def export_data():
-    return excel.make_response_from_tables(db.session, [Customer], "xls", file_name="export_data")
+    return excel.make_response_from_tables(db.session, [Customer], "xls", file_name="client")
 
 
 @bp.route("/customer/import", methods=['GET', 'POST'])
 @login_required
 def import_data():
     if request.method == 'POST':
-        def customer_init_func(row):
-            c = Category.query.filter_by(name=row['category']).first()
-            p = Customer(category=c, display_as=row['display_as'], first_name=row['first_name'],
-                         last_name=row['last_name'], address=row['address'], telephone=row['telephone'],
-                         email=row['email'])
-            return p
+        # save the file with name and open url of this file
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('Aucun fichier selectionné')
+            return redirect(url_for('customer.import_data'))
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('Aucun fichier selectionné')
+            return redirect(url_for('customer.import_data'))
+
+        def customer_init(row):
+            c = Customer()
+            c.display_as = row['Raison sociale']
+            c.first_name = row['Nom']
+            c.last_name = row['Prénoms']
+            c.address = row['Adresse']
+            c.telephone = row['Téléphone']
+            c.email = row['Email']
+            c.timestamp = datetime.utcnow()
+            return c
 
         request.save_book_to_database(
             field_name='file', session=db.session,
             tables=[Customer],
-            initializers=[customer_init_func])
-        return redirect(url_for('.handson_table'), code=302)
-    return render_template('customer/import.html')
+            initializers=[customer_init])
+        # Write file to static directory and do the hot dog check
+        flash(_('Fichier charger avec success!'))
+        return redirect(url_for('customer.index'))
+    return render_template('customer/import.html', title="Client")
 
 
-@bp.route("/handson_view", methods=['GET'])
-def handson_table():
-    return excel.make_response_from_tables(
-        db.session, [Customer], 'handsontable.html')
-
-
-@bp.route("/customer/download", methods=['GET'])
+@bp.route("/customer/format/<filename>", methods=['GET', 'POST'])
 @login_required
-def download():
-    query_sets = Customer.query.filter_by(id=1).all()
-    column_names = ['category_id', 'display_as', 'first_name', 'last_name', 'address', 'telephone', 'email']
-    return excel.make_response_from_query_sets(query_sets, column_names, "xls", file_name="template")
+def format_data(filename):
+    customer_row = [column.key for column in Customer.__table__.columns]
+    header_row = []
+    book = xlrd.open_workbook(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+    for sheet in book.sheets():
+        if sheet.name == 'DATA':
+            data_sheet = book.sheet_by_name("DATA")
+            header_row = data_sheet.row(0)
+
+    if request.method == 'POST':
+        data_sheet = book.sheet_by_name("DATA")
+        for r in range(1, data_sheet.nrows):
+            for c in customer_row:
+                customer = Customer()
+                customer[c] = r.cell(r, 6).value
+                print(c + " # " + request.form[c])
+
+        # Delete image when done with analysis
+        # os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('customer.index'))
+    return render_template('customer/format.html', title="Client", header_row=header_row, customer_row=customer_row)

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% set active_page = "customer" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block body %}
+<h1>Selectionner les columns que vous voulez importer</h1>
+<form action="" method=post>
+    <ul>
+        {% for cr in customer_row %}
+        <li>
+            {{cr}}
+            <select name="{{cr}}">
+                {% for r in header_row %}
+                    <option value="{{r.value}}">{{r.value}}</option>
+                {% endfor %}
+            </select>
+        </li>
+        {% endfor %}
+    </ul>
+    <input class="btn btn-primary" type=submit value='Suivant'>
+</form>
+{% endblock %}
