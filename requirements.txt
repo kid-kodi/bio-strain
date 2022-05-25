@@ -36,7 +36,7 @@ pyexcel==0.5.9.1
 pyexcel-io==0.5.9.1
 pyexcel-webio==0.1.4
 pyexcel-xls==0.5.8
-PyJWT==1.6.4
+PyJWT==2.4.0
 Pyphen==0.9.5
 python-dateutil==2.7.3
 python-dotenv==0.9.1
